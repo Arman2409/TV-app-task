@@ -1,0 +1,22 @@
+@import "../../../../../styles/colors.scss";
+
+.sidebar_footer {
+    width: 100%;
+    opacity: 1;
+    transition: 1s;
+    background-color:$main_background !important;
+
+    &_item {
+      color: $main_white !important;
+      opacity: 0.8;
+      background-color:  $main_background !important;
+      height: 30px !important;
+      margin: 0px;
+    }
+  }
+
+  .sidebar_footer_hidden {
+    @extend .sidebar_footer;
+    
+    opacity: 0;
+  }

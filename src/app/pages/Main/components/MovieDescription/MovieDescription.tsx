@@ -1,29 +1,36 @@
+"use client"
 import { Button } from "antd/lib"
 import { CaretRightOutlined } from "@ant-design/icons"
+import { useSelector } from "react-redux"
 
 import styles from "./styles/movieDescription.module.scss"
 import { getHoursAndMinutes } from "./utils/functions"
+import defaultMovie from "./data/default.json"
+import type { IRootState } from "../../../../store/store"
+import type { Movie } from "../../../../types/pages"
 
-const movie = {
-    "Id": "1",
-    "Title": "The Irishman",
-    "CoverImage": "FeaturedCoverImage.png",
-    "TitleImage": "FeaturedTitleImage.png",
-    "Date": "2021-10-24T12:16:50.894556",
-    "ReleaseYear": "2021",
-    "MpaRating": "18+",
-    "Category": "Movie",
-    "Duration": "6000",
-    "Description": "Info About it"
-}
 
 const movieImagesPath = "/assets/movieDescription/";
 
 const MovieDescription = () => {
-    const { Category, CoverImage, TitleImage, Description, Title, Duration, MpaRating, ReleaseYear } = { ...movie };
+    const { isOpened } = useSelector((state: IRootState) => state.sidebar);
+    const { chosenMovie } = useSelector((state: IRootState) => state.movies);
+
+    const { Category,
+        CoverImage,
+        TitleImage,
+        Description,
+        Title,
+        Duration,
+        MpaRating,
+        ReleaseYear }: Movie = chosenMovie.Id ? { ...chosenMovie } : { ...defaultMovie };
 
     return (
-        <div className={styles.description_main}>
+        <div
+            className={styles.description_main}
+            style={{
+                opacity: isOpened ? 0.2 : 1,
+            }}>
             <div className={styles.description_main_data}>
                 <div className={styles.description_main_data_content}>
                     <p className={styles.description_main_data_content_category}>

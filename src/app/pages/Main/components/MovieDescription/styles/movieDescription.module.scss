@@ -4,9 +4,11 @@
 
 .description_main {
     width: calc(100vw - $collapsed_menu_width);
+    margin-left: $collapsed_menu_width;
     background-color: $main_background;
-    height: 550px;
+    height: 65vh;
     display: flex;
+    transition: 1s;
     position: relative;
 
     &_data {

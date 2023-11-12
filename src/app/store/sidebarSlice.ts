@@ -6,19 +6,19 @@ const initialState:SidebarInitialState = {
     chosenPage: "home"
 }
 
-const socketSlice:Slice = createSlice({
-    name:  "socketSlice",
+const sidebarSlice:Slice = createSlice({
+    name:  "sidebarSlice",
     initialState,
     reducers: {
         updateStatus: (state, action) => {
             state.isOpened = action.payload;
         },
         changeChosenPage:(state,action)=>{
-            state.chosenPage=action.payload;
+            state.chosenPage = action.payload;
         }
     }
     }
 );
 
-export const { updateStatus, changeChosenPage } = socketSlice.actions;
-export default socketSlice.reducer;
+export const { updateStatus, changeChosenPage } = sidebarSlice.actions;
+export default sidebarSlice.reducer;
