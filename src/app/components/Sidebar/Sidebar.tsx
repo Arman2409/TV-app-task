@@ -1,35 +1,55 @@
 "use client"
-import { useCallback, useEffect, useState } from 'react'
+import { Suspense, useCallback, useEffect, useState } from 'react'
 import { Menu, Avatar } from "antd/lib"
 import { useRouter } from 'next/navigation'
+import { useDispatch, useSelector } from 'react-redux'
+import type { MenuItemType } from 'antd/es/menu/hooks/useItems'
 
 import styles from './styles/sidebar.module.scss'
 import { getUser } from './utils/functions'
 import menuItems from './data/menuItems'
 import footerItems from './data/footerItems'
-import type { ItemType } from '../../types/sidebar'
-import type { MenuItemType } from 'antd/es/menu/hooks/useItems'
+import Loading from '../custom/Loading/Loading'
+import { changeChosenPage } from '../../store/sidebarSlice'
+import type { ItemType } from '../../types/components'
+import type { IRootState } from '../../store/store'
 
 
 const Sidebar = () => {
   const [inlineCollapsed, setInlineCollapsed] = useState<boolean>(false);
   const [user, setUser] = useState<any>({ name: "", image: "" });
+  const [loaded, setLoaded] = useState<boolean>(false)
   const [clickedNavigationItem, setClickedNavigationItem] = useState<string>("");
   const router = useRouter();
+  const dispatch = useDispatch();
+  const { chosenPage, isOpened } = useSelector((state: IRootState) => state.sidebar);
 
-  const clickNavigationItem = useCallback((key: string) => {
+  const clickNavigationItem = useCallback((key: string, path: string) => {
     setClickedNavigationItem(key);
-    router.push(key)
+    dispatch(changeChosenPage(key));
   }, [setClickedNavigationItem, router])
 
   useEffect(() => {
     setUser(getUser);
   }, [getUser, setUser])
 
+  const changeInlineStatus = useCallback((status: boolean) => setInlineCollapsed(status), [setInlineCollapsed]);
+
+  useEffect(() => {
+    if (chosenPage) setClickedNavigationItem(chosenPage);
+    setInlineCollapsed(!isOpened);
+  }, [isOpened, chosenPage, setClickedNavigationItem, setInlineCollapsed])
+
+  useEffect(() => {
+     window.onload = () => setLoaded(true);
+  }, [window, setLoaded])
+
   return (
-      <div
-        onMouseEnter={() => setInlineCollapsed(false)}
-        onMouseLeave={() => setInlineCollapsed(true)}
+
+    <Suspense fallback={<Loading />}>
+      {loaded ? <div
+        onMouseEnter={() => changeInlineStatus(false)}
+        onMouseLeave={() => changeInlineStatus(true)}
         className={inlineCollapsed ? styles.sidebar_collapsed : styles.sidebar}>
         <div
           className={inlineCollapsed ? styles.sidebar_user_info_hidden : styles.sidebar_user_info}>
@@ -50,14 +70,15 @@ const Sidebar = () => {
           {menuItems.map(({ label, key, icon, path }: ItemType) => (
             <Menu.Item
               key={key}
-              onClick={() => clickNavigationItem(path)}
+              title=""
+              onClick={() => clickNavigationItem(key as string, path)}
               children={
                 <div
                   className={inlineCollapsed ? styles.sidebar_navigation_item_content_collapsed : styles.sidebar_navigation_item_content}>
                   <img
                     className={inlineCollapsed ? styles.sidebar_navigation_item_content_collapsed_image : styles.sidebar_navigation_item_content_image}
                     src={icon as string} />
-                  <p  className={inlineCollapsed ? styles.sidebar_navigation_item_content_collapsed_text : styles.sidebar_navigation_item_content_text}>
+                  <p className={inlineCollapsed ? styles.sidebar_navigation_item_content_collapsed_text : styles.sidebar_navigation_item_content_text}>
                     {label}
                   </p>
                 </div>
@@ -67,7 +88,7 @@ const Sidebar = () => {
           ))}
         </Menu>
         <Menu
-          className={inlineCollapsed ? styles.sidebar_footer_hidden :  styles.sidebar_footer}>
+          className={inlineCollapsed ? styles.sidebar_footer_hidden : styles.sidebar_footer}>
           {footerItems.map(({ label, key }: MenuItemType) => (
             <Menu.Item
               key={key}
@@ -76,7 +97,8 @@ const Sidebar = () => {
             </Menu.Item>
           ))}
         </Menu>
-      </div>
+      </div> : <Loading />}
+    </Suspense>
   )
 }
 

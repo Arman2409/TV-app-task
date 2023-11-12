@@ -1,8 +1,8 @@
+import Main from "./pages/Main/Main";
+
 const MainPage = () => {
     return (
-        <div>
-
-        </div>
+          <Main />
     )
 }
 

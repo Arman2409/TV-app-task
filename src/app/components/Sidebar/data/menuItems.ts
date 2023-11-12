@@ -1,6 +1,6 @@
-import type { ItemType } from "../../../types/sidebar";
+import type { ItemType } from "../../../types/components";
 
-const navigationIconsPath = "assets/sidebar/icons/";
+const navigationIconsPath = "/assets/sidebar/icons/";
 
 const menuItems: ItemType[] = [
   {
@@ -29,7 +29,7 @@ const menuItems: ItemType[] = [
   },
   {
     key: "genres",
-    label: "TV Shows",
+    label: "Genres",
     icon: navigationIconsPath + "genres.png",
     path: "/genres"
   },

@@ -1,14 +1,16 @@
 @import "../../../styles/colors.scss";
+@import "../../../styles/variables.scss";
 
 .sidebar {
   width: 200px;
   height: 100vh;
   transition: 1s;
   padding: 75px 5px;
-  background-color: $mainBackground;
-  color: white;
+  background-color: $main_background;
+  color: $main_white;
   justify-self: flex-start;
   transition: 1s;
+  overflow-x: hidden;
 
   &_user_info {
     height: 50px;
@@ -35,18 +37,18 @@
 
 
   &_navigation {
-    background-color:  $mainBackground !important;
+    background-color:  $main_background !important;
     margin-bottom: 110px;
 
     &_item {
-      color: white !important;
+      color: $main_white !important;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 0 !important;
 
       &:hover {
-        color:  $menu_item_clicked !important;
+        color:  $menu_item_hover !important;
       }
 
       &_content {
@@ -88,7 +90,7 @@
     &_item_clicked {
       @extend .sidebar_navigation_item;
 
-      background-color: $menu_item_clicked !important;
+      background-color: $menu_item_click !important;
     }
   }
 
@@ -96,12 +98,12 @@
     width: 100%;
     opacity: 1;
     transition: 1s;
-    background-color:  $mainBackground;
+    background-color:$main_background !important;
 
     &_item {
-      color: white !important;
+      color: $main_white !important;
       opacity: 0.8;
-      background-color:  $mainBackground;
+      background-color:  $main_background !important;
       height: 30px !important;
       margin: 0px;
     }
@@ -116,5 +118,5 @@
 .sidebar_collapsed {
   @extend .sidebar;
 
-  width: 80px;
+  width: $collapsed_menu_width;
 }
