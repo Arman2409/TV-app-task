@@ -1,6 +1,6 @@
 import { createSlice, Slice } from "@reduxjs/toolkit";
 
-import { MoviesInitialState } from "../types/store";
+import type { MoviesInitialState } from "../types/store";
 import type { Movie } from "../types/pages";
 
 const initialState: MoviesInitialState = {

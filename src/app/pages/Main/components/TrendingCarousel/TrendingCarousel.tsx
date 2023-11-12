@@ -5,14 +5,12 @@ import { useDispatch, useSelector } from "react-redux"
 import styles from "./styles/trendingCarousel.module.scss"
 import movies from "./data/trendingMovies.json"
 import { changeChosenMovie } from "../../../../store/moviesSlice"
-import type { IRootState } from "../../../../store/store"
 import type { Movie } from "../../../../types/pages"
 
 const movieImagesPath = "/assets/movieDescription/";
 
 const TrendingCarousel = () => {
     const dispatch = useDispatch();
-    const { isOpened } = useSelector((state: IRootState) => state.sidebar);
     const carouselSlides = useRef<any>(null);
 
     const updateChosenMovie = useCallback((movie: Movie) => {
@@ -30,7 +28,7 @@ const TrendingCarousel = () => {
                 }
                 carouselSlides.current.style.left = currentLeft + 12 + "%"
             } else {
-                if(currentLeft >  movies.length * 12) {
+                if(currentLeft <=  movies.length * -12 + (8 * 12)) {
                     return;
                 }
                 carouselSlides.current.style.left = currentLeft - 12 + "%"
@@ -41,9 +39,7 @@ const TrendingCarousel = () => {
     return (
         <div
             className={styles.carousel}
-            style={{
-                opacity: isOpened ? 0.2 : 1,
-            }}>
+            >
             <h5 className={styles.carousel_title}>
                 Trending Now
             </h5>

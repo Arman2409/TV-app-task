@@ -9,11 +9,9 @@ import defaultMovie from "./data/default.json"
 import type { IRootState } from "../../../../store/store"
 import type { Movie } from "../../../../types/pages"
 
-
 const movieImagesPath = "/assets/movieDescription/";
 
 const MovieDescription = () => {
-    const { isOpened } = useSelector((state: IRootState) => state.sidebar);
     const { chosenMovie } = useSelector((state: IRootState) => state.movies);
 
     const { Category,
@@ -28,9 +26,7 @@ const MovieDescription = () => {
     return (
         <div
             className={styles.description_main}
-            style={{
-                opacity: isOpened ? 0.2 : 1,
-            }}>
+            >
             <div className={styles.description_main_data}>
                 <div className={styles.description_main_data_content}>
                     <p className={styles.description_main_data_content_category}>

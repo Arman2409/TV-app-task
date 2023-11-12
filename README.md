@@ -1,7 +1,11 @@
 # TV application
 
-A simple TV application
+TV application task
 
-First, run the development server:
+### Setup
 
-npm run dev
+1. Install NodeJS (https://nodejs.org/en/)
+2. Clone this repository: git clone https://github.com/Arman2409/TV-app-task.git
+3. Go to the root directory of your cloned repo: cd TV-app-task
+4. Run npm install in terminal or cmd: npm i
+5. Start development server: npm run dev

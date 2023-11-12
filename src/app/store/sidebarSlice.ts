@@ -1,5 +1,6 @@
 import { createSlice, Slice } from "@reduxjs/toolkit";
-import { SidebarInitialState } from "../types/store";
+
+import type { SidebarInitialState } from "../types/store";
 
 const initialState:SidebarInitialState = {
     isOpened: false,

@@ -1,4 +1,4 @@
-import type {Reducer} from "@reduxjs/toolkit";
+import type { Reducer } from "@reduxjs/toolkit";
 
 import type { Movie } from "./pages";
 

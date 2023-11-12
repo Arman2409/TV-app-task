@@ -6,7 +6,7 @@
     width: calc(100vw - $collapsed_menu_width);
     margin-left: $collapsed_menu_width;
     background-color: $main_background;
-    height: 65vh;
+    height: 70vh;
     display: flex;
     transition: 1s;
     position: relative;
@@ -14,12 +14,10 @@
     &_data {
         width: 50%;
         z-index: 2;
-        border: 1px solid pink;
         padding: 65px 20px;
         color: $main_white;
 
         &_content {
-            border: 1px solid pink;
             height: 100%;
             width: 100%;
 
@@ -32,11 +30,18 @@
             }
             
             &_buttons {
+                display: flex;
                 button {
-                    width: 110px;
+                    width: 125px;
                     height: 45px;
                     border-radius: 50px;
                     margin-right: 15px;
+                    font-size: 20px;
+                    border: none;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: 800;
                 }
 
                 &_play {

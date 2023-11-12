@@ -3,7 +3,7 @@
 
 .sidebar {
   width: 200px;
-  height: 100vh;
+  height:100vh;
   transition: 1s;
   padding: 75px 5px;
   background-color: $main_background;
@@ -12,7 +12,8 @@
   transition: 1s;
   overflow-x: hidden;
   position: fixed;
-  z-index: 3;
+  overflow-y: hidden;
+  z-index: 4;
 
   &_user_info {
     height: 50px;

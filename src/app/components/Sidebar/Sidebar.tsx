@@ -10,27 +10,28 @@ import menuItems from './data/menuItems'
 import Loading from '../custom/Loading/Loading'
 import { changeChosenPage, updateStatus } from '../../store/sidebarSlice'
 import SidebarFooter from './components/SidebarFooter/SidebarFooter'
-import type { ItemType } from '../../types/components'
+import type { User } from '../../types/components'
 import type { IRootState } from '../../store/store'
+import type { MenuItemType } from 'antd/es/menu/hooks/useItems'
 
 
 const Sidebar = () => {
-  const [inlineCollapsed, setInlineCollapsed] = useState<boolean>(false);
-  const [user, setUser] = useState<any>({ name: "", image: "" });
+  const [inlineCollapsed, setInlineCollapsed] = useState<boolean>(true);
+  const [user, setUser] = useState<User>({} as User);
   const [loaded, setLoaded] = useState<boolean>(false)
   const [clickedNavigationItem, setClickedNavigationItem] = useState<string>("");
   const router = useRouter();
   const dispatch = useDispatch();
   const { chosenPage } = useSelector((state: IRootState) => state.sidebar);
 
-  const clickNavigationItem = useCallback((key: string, path: string) => {
+  const clickNavigationItem = useCallback((key: string) => {
     setClickedNavigationItem(key);
     dispatch(changeChosenPage(key));
   }, [setClickedNavigationItem, router])
 
   useEffect(() => {
     setUser(getUser());
-  }, [getUser, setUser])
+  }, [setUser, getUser])
 
   const changeInlineStatus = useCallback((status: boolean) => {
     setInlineCollapsed(status)
@@ -39,7 +40,7 @@ const Sidebar = () => {
 
   useEffect(() => {
     if (chosenPage) setClickedNavigationItem(chosenPage);
-  }, [chosenPage, setClickedNavigationItem, setInlineCollapsed])
+  }, [chosenPage, setClickedNavigationItem])
 
   useEffect(() => {
     window.onload = () => setLoaded(true);
@@ -47,7 +48,10 @@ const Sidebar = () => {
 
   return (
 
-    <Suspense fallback={<Loading />}>
+    <Suspense fallback={<Loading
+      height='100vh'
+      width="80px" />}
+    >
       {loaded ? <div
         onMouseEnter={() => changeInlineStatus(false)}
         onMouseLeave={() => changeInlineStatus(true)}
@@ -65,14 +69,12 @@ const Sidebar = () => {
           mode="vertical"
           className={styles.sidebar_navigation}
           inlineCollapsed={inlineCollapsed}
-          onMouseEnter={() => setInlineCollapsed(false)}
-          onMouseLeave={() => setInlineCollapsed(true)}
         >
-          {menuItems.map(({ label, key, icon, path }: ItemType) => (
+          {menuItems.map(({ label, key, icon }: MenuItemType) => (
             <Menu.Item
               key={key}
               title=""
-              onClick={() => clickNavigationItem(key as string, path)}
+              onClick={() => clickNavigationItem(key as string)}
               children={
                 <div
                   className={inlineCollapsed ? styles.sidebar_navigation_item_content_collapsed
@@ -93,7 +95,10 @@ const Sidebar = () => {
           ))}
         </Menu>
         <SidebarFooter inlineCollapsed={inlineCollapsed} />
-      </div> : <Loading />}
+      </div>
+        : <Loading
+          height='100vh'
+          width="80px" />}
     </Suspense>
   )
 }
