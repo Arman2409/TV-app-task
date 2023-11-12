@@ -1,4 +1,4 @@
-import userData from "../../../data/user.json";
+import userData from "../../../../data/user.json";
 
 export const getUser = () => {
     const storeUser = localStorage.getItem("user");

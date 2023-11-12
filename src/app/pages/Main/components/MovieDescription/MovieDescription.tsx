@@ -1,10 +1,11 @@
 "use client"
+import { useEffect, useRef, useState } from "react"
 import { Button } from "antd/lib"
 import { CaretRightOutlined } from "@ant-design/icons"
 import { useSelector } from "react-redux"
 
 import styles from "./styles/movieDescription.module.scss"
-import { getHoursAndMinutes } from "./utils/functions"
+import { addToWatched, getHoursAndMinutes } from "./utils/functions"
 import defaultMovie from "./data/default.json"
 import type { IRootState } from "../../../../store/store"
 import type { Movie } from "../../../../types/pages"
@@ -12,6 +13,8 @@ import type { Movie } from "../../../../types/pages"
 const movieImagesPath = "/assets/movieDescription/";
 
 const MovieDescription = () => {
+    const [videoAddress, setVideoAddress] = useState<string>("");
+    const playTimeout = useRef<any>(null);
     const { chosenMovie } = useSelector((state: IRootState) => state.movies);
 
     const { Category,
@@ -21,12 +24,23 @@ const MovieDescription = () => {
         Title,
         Duration,
         MpaRating,
+        Id,
+        VideoUrl,
         ReleaseYear }: Movie = chosenMovie.Id ? { ...chosenMovie } : { ...defaultMovie };
+
+    useEffect(() => {
+        setVideoAddress("")
+        clearTimeout(playTimeout.current);
+        playTimeout.current = setTimeout(() => {
+            setVideoAddress(VideoUrl)
+        }, 2000);
+        addToWatched(Id);
+    }, [Id, VideoUrl, setVideoAddress, addToWatched])
 
     return (
         <div
             className={styles.description_main}
-            >
+        >
             <div className={styles.description_main_data}>
                 <div className={styles.description_main_data_content}>
                     <p className={styles.description_main_data_content_category}>
@@ -58,10 +72,16 @@ const MovieDescription = () => {
                     </div>
                 </div>
             </div>
-            <img
-                className={styles.description_main_image}
-                src={movieImagesPath + CoverImage}
-            />
+            {videoAddress ? <video
+                className={styles.description_main_media}
+                autoPlay
+            >
+                <source src={videoAddress} />
+            </video>
+                : <img
+                    className={styles.description_main_media}
+                    src={movieImagesPath + CoverImage}
+                />}
         </div>
     )
 }

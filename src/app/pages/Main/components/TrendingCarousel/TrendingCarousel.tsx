@@ -1,9 +1,10 @@
 "use client"
-import React, { useCallback, useEffect, useRef } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import React, { useCallback, useEffect, useRef, useState } from "react"
+import { useDispatch } from "react-redux"
 
 import styles from "./styles/trendingCarousel.module.scss"
 import movies from "./data/trendingMovies.json"
+import { getWatchedIds } from "./utils/functions"
 import { changeChosenMovie } from "../../../../store/moviesSlice"
 import type { Movie } from "../../../../types/pages"
 
@@ -11,6 +12,7 @@ const movieImagesPath = "/assets/movieDescription/";
 
 const TrendingCarousel = () => {
     const dispatch = useDispatch();
+    const [trendingMovies, setTrendingMovies] = useState<Movie[]>([]);
     const carouselSlides = useRef<any>(null);
 
     const updateChosenMovie = useCallback((movie: Movie) => {
@@ -34,7 +36,22 @@ const TrendingCarousel = () => {
                 carouselSlides.current.style.left = currentLeft - 12 + "%"
             }
         })
-    }, [])
+        const watchedIds = getWatchedIds();
+        let newMovies:Movie[] = [];
+        watchedIds.forEach((Id:string) => {
+           const watchedMovie =  movies.find(({Id:movieId}:Movie) =>  movieId === Id);
+           if(!watchedMovie){
+               console.warn("no movie found with id", Id);
+               return;
+           }
+           newMovies.push(watchedMovie);
+        });
+        movies.forEach((movie:Movie) => {
+            if(watchedIds.includes(movie.Id)) return;
+            newMovies.push(movie);
+        })
+        setTrendingMovies([...newMovies]);
+    }, [setTrendingMovies, movies, getWatchedIds])
 
     return (
         <div
@@ -47,14 +64,13 @@ const TrendingCarousel = () => {
                 className={styles.carousel_slider}>
                 <div
                     ref={carouselSlides}
-
                     className={styles.carousel_slider_slides}
                     style={{
-                        left: "0%",
                         width: movies.length * 12 + "%"
                     }}>
-                    {movies.map((movie) => (
+                    {trendingMovies.length && trendingMovies.map((movie) => (
                         <div
+                            key={movie.Id}
                             onClick={() => updateChosenMovie(movie)}
                             className={styles.carousel_slider_slides_slide}
                         >

@@ -3,16 +3,16 @@ import { Suspense, useCallback, useEffect, useState } from 'react'
 import { Menu, Avatar } from "antd/lib"
 import { useRouter } from 'next/navigation'
 import { useDispatch, useSelector } from 'react-redux'
+import type { MenuItemType } from 'antd/es/menu/hooks/useItems'
 
 import styles from './styles/sidebar.module.scss'
 import { getUser } from './utils/functions'
 import menuItems from './data/menuItems'
-import Loading from '../custom/Loading/Loading'
-import { changeChosenPage, updateStatus } from '../../store/sidebarSlice'
+import Loading from '../../custom/Loading/Loading'
+import { changeChosenPage, updateStatus } from '../../../store/sidebarSlice'
 import SidebarFooter from './components/SidebarFooter/SidebarFooter'
-import type { User } from '../../types/components'
-import type { IRootState } from '../../store/store'
-import type { MenuItemType } from 'antd/es/menu/hooks/useItems'
+import type { User } from '../../../types/components'
+import type { IRootState } from '../../../store/store'
 
 
 const Sidebar = () => {
@@ -27,7 +27,7 @@ const Sidebar = () => {
   const clickNavigationItem = useCallback((key: string) => {
     setClickedNavigationItem(key);
     dispatch(changeChosenPage(key));
-  }, [setClickedNavigationItem, router])
+  }, [setClickedNavigationItem, router, changeChosenPage, dispatch])
 
   useEffect(() => {
     setUser(getUser());
@@ -47,7 +47,6 @@ const Sidebar = () => {
   }, [window, setLoaded])
 
   return (
-
     <Suspense fallback={<Loading
       height='100vh'
       width="80px" />}
@@ -66,7 +65,7 @@ const Sidebar = () => {
           {user.name}
         </div>
         <Menu
-          mode="vertical"
+          mode="inline"
           className={styles.sidebar_navigation}
           inlineCollapsed={inlineCollapsed}
         >

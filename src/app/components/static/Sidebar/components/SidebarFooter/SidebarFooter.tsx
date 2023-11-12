@@ -3,7 +3,7 @@ import type { MenuItemType } from 'antd/es/menu/hooks/useItems'
 
 import styles from "./styles/sidebarFooter.module.scss"
 import footerItems from '../../data/footerItems'
-import type { SidebarFooterProps } from "../../../../types/components"
+import type { SidebarFooterProps } from "../../../../../types/components"
 
 const SidebarFooter = ({inlineCollapsed}:SidebarFooterProps) => (
         <Menu
