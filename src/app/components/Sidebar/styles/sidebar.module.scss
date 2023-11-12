@@ -1,0 +1,120 @@
+@import "../../../styles/colors.scss";
+
+.sidebar {
+  width: 200px;
+  height: 100vh;
+  transition: 1s;
+  padding: 75px 5px;
+  background-color: $mainBackground;
+  color: white;
+  justify-self: flex-start;
+  transition: 1s;
+
+  &_user_info {
+    height: 50px;
+    width: 100%;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    transition: 1s;
+    opacity: 1;
+
+    &_avatar {
+      width: 50px;
+      height: 50px;
+      margin-right: 10px;
+    }
+  }
+
+
+  &_user_info_hidden {
+    @extend .sidebar_user_info;
+
+    opacity: 0;
+  }
+
+
+  &_navigation {
+    background-color:  $mainBackground !important;
+    margin-bottom: 110px;
+
+    &_item {
+      color: white !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 !important;
+
+      &:hover {
+        color:  $menu_item_clicked !important;
+      }
+
+      &_content {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+
+        &_image {
+          margin-left: 10px;
+          margin-right: 25px;
+        }
+
+        &_text {
+          transition: 1s;
+          width: auto;
+          opacity: 1;
+        }
+      }
+
+      &_content_collapsed {
+        @extend .sidebar_navigation_item_content;
+
+        justify-content: center;
+        align-items: center;
+
+        &_image {
+          margin: 0;
+        }
+
+        &_text {
+          transition: 1s;
+          width: 0px;
+          opacity: 0;
+        }
+      }
+    }
+
+    &_item_clicked {
+      @extend .sidebar_navigation_item;
+
+      background-color: $menu_item_clicked !important;
+    }
+  }
+
+  &_footer {
+    width: 100%;
+    opacity: 1;
+    transition: 1s;
+    background-color:  $mainBackground;
+
+    &_item {
+      color: white !important;
+      opacity: 0.8;
+      background-color:  $mainBackground;
+      height: 30px !important;
+      margin: 0px;
+    }
+  }
+
+  &_footer_hidden {
+    @extend .sidebar_footer;
+    opacity: 0;
+  }
+}
+
+.sidebar_collapsed {
+  @extend .sidebar;
+
+  width: 80px;
+}
